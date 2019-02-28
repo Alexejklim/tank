@@ -18,7 +18,7 @@ class CamViewWidget(QtGui.QWidget):
         super(CamViewWidget, self).__init__(parent)
         self.display = QtGui.QWidget()
         self.windowId = self.display.winId()
-        self.setGeometry(300,300,640,480)
+        self.setGeometry(300,300,800,600)
         self.setWindowTitle("CamViewWidget Streaming")
 
         self.port = 5000

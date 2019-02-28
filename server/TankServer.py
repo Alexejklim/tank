@@ -53,8 +53,6 @@ class TankServer:
         self.httpHandler.setHandler('gpio', self.gpioCommandHandler.handleCommand)
         self.udpHandler.setHandler('gpio', self.gpioCommandHandler.handleCommand)
 
-        #self.arduinoController = ArduinoController(config['ArduinoController'])
-
         self.switchController = SwitchController(config['SwitchController'])
         self.switchCommandHandler = SwitchCommandHandler(self.switchController)
         self.httpHandler.setHandler('switch', self.switchCommandHandler.handleCommand)

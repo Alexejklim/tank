@@ -1,4 +1,3 @@
-from client.TankClient import *
 from client.SwitchClient import *
 from client.GpioClient import *
 from client.ServoClient import *

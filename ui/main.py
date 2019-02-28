@@ -67,16 +67,12 @@ try:
     from CamViewWidget import*
     from ControlWidget import*
     from SoundWidget import*
-    from client import VideoClient, ControlClient, ServoClient, SwitchClient, TankClient, SoundClient
+    from client import VideoClient, ControlClient, SwitchClient, SoundClient , ServoClient
 
 
     from client import JoystickManager
 
     host, port = config['Server']['host'], int(config['Server']['port'])
-
-    #tankClient = TankClient((host, port))
-    #tankClient.start()
-    #tankClient.reset()
 
     videoClient = VideoClient((host, port))
     videoClient.start()
@@ -125,7 +121,6 @@ try:
     servoClient.stop()
     switchClient.stop()
     soundClient.stop()
-    #tankClient.stop()
 
     pygame.quit()
     logger.info("Instance ended")

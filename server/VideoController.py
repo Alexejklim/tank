@@ -31,7 +31,7 @@ class VideoController:
                      'rtph264pay config-interval=10 pt=96 ! udpsink host={4} port={5}').format(self.wight, self.height
                ,self.bitrate, self.fps,
                 self.listenHost, port)
-        raspivid = subprocess.Popen(gstreamer, shell = True)
+        raspivid = subprocess.Popen(gstreamer,stdout=subprocess.PIPE,stderr=subprocess.PIPE ,shell = True)
 
         self.logger.info("Started")
 
