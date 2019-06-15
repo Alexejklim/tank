@@ -29,7 +29,6 @@ class ClientConnector:
 
     def requestAndCheck(self, request, params):
         result = self.request(request, params)
-
         if result is None:
             raise RuntimeError("Result is None")
 

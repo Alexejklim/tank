@@ -3,7 +3,6 @@
 import threading
 from ..threading_utils import DelegateCommand
 
-
 class BackgroundServerMixIn:
     def startServer(self):
         self.server_bind()
@@ -20,10 +19,10 @@ class BackgroundServerMixIn:
             self.serverThread = None
             self.server_close()
 
-
 class DispatchedServerMixIn:
     def process_request_thread(self, request, client_address):
         try:
+            print(request, client_address)
             self.finish_request(request, client_address)
             self.shutdown_request(request)
         except:

@@ -108,11 +108,11 @@ class SoundCommandHandler:
             if remoteAddr is not None:
                 host, port = remoteAddr
 
-            host = args.get('host', host)
-            port = int(args.get('port'))
-
             if port is None or host is None:
                 raise RuntimeError("Host or port is not specified")
+
+            host = args.get('host', host)
+            port = int(args.get('port'))
 
             self.soundController.startSendSound(host, port, sampleRate)
             return True

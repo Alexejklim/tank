@@ -27,7 +27,7 @@ class HTTPCommandHandler(CommandHandler):
         args['_remoteAddr'] = requestHandler.client_address
         args['_httpHeaders'] = copy.copy(requestHandler.headers)
 
-        if requestHandler.command == 'POST':
+        if requestHandler.command == 'GET':
             args['_httpBody'] = requestHandler.rfile.read(int(requestHandler.headers.get('Content-Length')))
 
         result = self.callHandler(cmd, args)
@@ -55,5 +55,4 @@ class HTTPCommandHandler(CommandHandler):
             requestHandler.send_header(key, value)
 
         requestHandler.end_headers()
-
         requestHandler.wfile.write(six.b(response))

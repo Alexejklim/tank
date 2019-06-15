@@ -1,35 +1,21 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'CamViewWidget.ui'
+# Form implementation generated from reading ui file 'D:\old_windows\Desktop\TANK\tank-master\tank-master\tank\ui\CamViewWidget.ui'
 #
-# Created: Mon Oct 27 18:56:59 2014
-#      by: PyQt4 UI code generator 4.11.2
+# Created: Thu May 09 00:25:28 2019
+#      by: pyside-uic 0.2.15 running on PySide 1.2.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PySide import QtCore, QtGui
 
 class Ui_CamViewWidget(object):
     def setupUi(self, CamViewWidget):
-        CamViewWidget.setObjectName(_fromUtf8("CamViewWidget"))
+        CamViewWidget.setObjectName("CamViewWidget")
         CamViewWidget.resize(284, 63)
         self.verticalLayout = QtGui.QVBoxLayout(CamViewWidget)
-        self.verticalLayout.setMargin(0)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.labelImage = QtGui.QLabel(CamViewWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -38,39 +24,39 @@ class Ui_CamViewWidget(object):
         self.labelImage.setSizePolicy(sizePolicy)
         self.labelImage.setFrameShape(QtGui.QFrame.Box)
         self.labelImage.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelImage.setObjectName(_fromUtf8("labelImage"))
+        self.labelImage.setObjectName("labelImage")
         self.verticalLayout.addWidget(self.labelImage)
         self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.comboDevice = QtGui.QComboBox(CamViewWidget)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboDevice.sizePolicy().hasHeightForWidth())
         self.comboDevice.setSizePolicy(sizePolicy)
-        self.comboDevice.setObjectName(_fromUtf8("comboDevice"))
+        self.comboDevice.setObjectName("comboDevice")
         self.horizontalLayout.addWidget(self.comboDevice)
         self.comboMode = QtGui.QComboBox(CamViewWidget)
-        self.comboMode.setObjectName(_fromUtf8("comboMode"))
+        self.comboMode.setObjectName("comboMode")
         self.horizontalLayout.addWidget(self.comboMode)
         self.spinFps = QtGui.QSpinBox(CamViewWidget)
         self.spinFps.setMinimum(1)
         self.spinFps.setMaximum(30)
         self.spinFps.setProperty("value", 10)
-        self.spinFps.setObjectName(_fromUtf8("spinFps"))
+        self.spinFps.setObjectName("spinFps")
         self.horizontalLayout.addWidget(self.spinFps)
         self.btnStartStop = QtGui.QPushButton(CamViewWidget)
-        self.btnStartStop.setObjectName(_fromUtf8("btnStartStop"))
+        self.btnStartStop.setObjectName("btnStartStop")
         self.horizontalLayout.addWidget(self.btnStartStop)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.labelStatus = QtGui.QLabel(CamViewWidget)
-        self.labelStatus.setText(_fromUtf8(""))
-        self.labelStatus.setObjectName(_fromUtf8("labelStatus"))
+        self.labelStatus.setText("")
+        self.labelStatus.setObjectName("labelStatus")
         self.verticalLayout.addWidget(self.labelStatus)
 
         self.retranslateUi(CamViewWidget)
         QtCore.QMetaObject.connectSlotsByName(CamViewWidget)
 
     def retranslateUi(self, CamViewWidget):
-        self.btnStartStop.setText(_translate("CamViewWidget", "Start", None))
+        self.btnStartStop.setText(QtGui.QApplication.translate("CamViewWidget", "Start", None, QtGui.QApplication.UnicodeUTF8))
 

@@ -1,0 +1,7 @@
+PyAudio==0.2.11
+pygame==1.9.4
+six==1.11.0
+tornado==5.1.1
+PyQt4==4.11.4
+PySide==1.2.4
+pyserial==3.4

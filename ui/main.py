@@ -68,12 +68,16 @@ try:
     from ControlWidget import*
     from SoundWidget import*
     from client import VideoClient, ControlClient, SwitchClient, SoundClient , ServoClient
-
-
     from client import JoystickManager
 
-    host, port = config['Server']['host'], int(config['Server']['port'])
+    # try to find RPi in LAN.
+    try:
+       host = socket.gethostbyname('raspberrypi')
+    except Exception:
+        logger.info('No hosts with name raspberrypi')
+        host = config['Server']['host']
 
+    port = int(config['Server']['port'])
     videoClient = VideoClient((host, port))
     videoClient.start()
     servoClient = ServoClient((host, port))
@@ -88,11 +92,10 @@ try:
     joystickManager.start()
 
     controlCfg = config['Control']
-
     controlClient = ControlClient(joystickManager, servoClient,  switchClient, controlCfg)
     controlClient.start()
 
-    videoWnd = CamViewWidget()
+    videoWnd = CamViewWidget(videoClient)
     controlWnd = ControlWidget(controlClient)
     soundWnd = SoundWidget(soundClient)
 
@@ -100,8 +103,6 @@ try:
     controlWnd.setWindowTitle("Control")
     soundWnd.setWindowTitle("Sound")
 
-    videoWnd.setUpGst()
-    videoWnd.startPrev()
     videoWnd.show()
     controlWnd.show()
     soundWnd.show()

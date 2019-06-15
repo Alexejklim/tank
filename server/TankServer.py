@@ -12,7 +12,7 @@ from SoundController import *
 from ServoController import *
 from SwitchController import *
 from VideoController import *
-
+from ArduinoController import *
 
 class TankServer:
     def __init__(self, config):
@@ -53,6 +53,7 @@ class TankServer:
         self.httpHandler.setHandler('gpio', self.gpioCommandHandler.handleCommand)
         self.udpHandler.setHandler('gpio', self.gpioCommandHandler.handleCommand)
 
+        self.arduinoController = ArduinoController(config['ArduinoController'])
         self.switchController = SwitchController(config['SwitchController'])
         self.switchCommandHandler = SwitchCommandHandler(self.switchController)
         self.httpHandler.setHandler('switch', self.switchCommandHandler.handleCommand)
@@ -61,7 +62,6 @@ class TankServer:
         self.videoController = VideoController(config['VideoController'])
         self.videoCommandHandler = VideoCommandHandler(self.videoController)
         self.httpHandler.setHandler('video', self.videoCommandHandler.handleCommand)
-        self.udpHandler.setHandler('video', self.videoCommandHandler.handleCommand)
 
         self.soundController = SoundController(config['SoundController'])
         self.soundCommandHandler = SoundCommandHandler(self.soundController)
@@ -80,10 +80,15 @@ class TankServer:
         self.servoController.add_all_gpios(self.gpioController.getPinNames(), self.gpioController.setPinValue,
                                            self.gpioController.getPinValue, 'gpio')
         self.servoController.start()
+        self.arduinoController.start()
 
         self.switchController.addAll(self.gpioController.getPinNames(), self.gpioController.setPinValue,
                                      self.gpioController.getPinValue, 'gpio')
 
+        self.switchController.addSwitch('gunPower', self.arduinoController.setGunPower,
+                                        self.arduinoController.getGunPower, 'arduino')
+        self.switchController.addSwitch('gunFire', self.arduinoController.setGunFire, self.arduinoController.getGunFire,
+                                        'arduino')
         self.switchController.start()
 
         self.videoController.start()
@@ -98,6 +103,7 @@ class TankServer:
         self.switchController.stop()
         self.servoController.stop()
         self.gpioController.stop()
+        self.arduinoController.stop()
 
         self.httpServer.stopServer()
         self.udpServer.stopServer()
@@ -114,6 +120,7 @@ class TankServer:
                   'GpioController': self.gpioController.getStatus(),
                   'VideoController': self.videoController.getStatus(),
                   'SoundController': self.soundController.getStatus(),
+                  'ArduinoController': self.arduinoController.getStatus(),
                   'SwitchController': self.switchController.getStatus()}
 
         return status

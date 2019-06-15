@@ -60,7 +60,6 @@ class SwitchController:
 
         return switchStatus
 
-
 class SwitchCommandHandler:
     def __init__(self, switchController):
         self.switchController = switchController

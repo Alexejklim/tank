@@ -18,8 +18,7 @@ class HttpClientConnector(ClientConnector):
 
     def _doRequest(self, requestString):
         self.logger.debug("Sending {0} to {1}".format(requestString, self.addr))
-
-        conn = httplib.HTTPConnection(self.addr)
+        conn = httplib.HTTPConnection(self.addr, timeout=10)
         try:
             conn.request("GET", requestString)
             resp = conn.getresponse()
