@@ -70,21 +70,26 @@ try:
     from client import VideoClient, ControlClient, SwitchClient, SoundClient , ServoClient
     from client import JoystickManager
 
+    #get my LAN IP
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    myhost = s.getsockname()[0]
+
     # try to find RPi in LAN.
     try:
-       host = socket.gethostbyname('raspberrypi')
+       serverhost = socket.gethostbyname('raspberrypi')
     except Exception:
         logger.info('No hosts with name raspberrypi')
-        host = config['Server']['host']
+        serverhost = config['Server']['host']
 
     port = int(config['Server']['port'])
-    videoClient = VideoClient((host, port))
+    videoClient = VideoClient((serverhost, port))
     videoClient.start()
-    servoClient = ServoClient((host, port))
+    servoClient = ServoClient((serverhost, port))
     servoClient.start()
-    switchClient = SwitchClient((host, port))
+    switchClient = SwitchClient((serverhost, port))
     switchClient.start()
-    soundClient = SoundClient((host, port))
+    soundClient = SoundClient((serverhost, port))
     soundClient.start()
 
     joyUpdateInterval = float(config['Joystick']['interval'])
@@ -95,7 +100,7 @@ try:
     controlClient = ControlClient(joystickManager, servoClient,  switchClient, controlCfg)
     controlClient.start()
 
-    videoWnd = CamViewWidget(videoClient)
+    videoWnd = CamViewWidget(videoClient, myhost)
     controlWnd = ControlWidget(controlClient)
     soundWnd = SoundWidget(soundClient)
 

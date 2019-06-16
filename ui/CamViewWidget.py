@@ -14,12 +14,15 @@ Gst.init(None)
 class CamViewWidget(QtGui.QWidget):
 
     """Form for Streaming a CamViewWidget"""
-    def __init__(self, videoClient, parent = None):
+    def __init__(self, videoClient,myhost, parent = None):
         super(CamViewWidget, self).__init__(parent)
+        self.myhost = myhost
         self.videoClient = videoClient
         self.setGeometry(300, 300, 800, 600)
         self.setWindowTitle("CamViewWidget Streaming")
+        self.createWindow()
 
+    def createWindow(self):
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtGui.QVBoxLayout()
@@ -46,7 +49,6 @@ class CamViewWidget(QtGui.QWidget):
         self.comboMode.setObjectName("comboMode")
         self.horizontalLayout.addWidget(self.comboMode)
 
-
         self.spinFps = QtGui.QSpinBox(self)
         self.spinFps.setMinimum(1)
         self.spinFps.setMaximum(30)
@@ -70,67 +72,13 @@ class CamViewWidget(QtGui.QWidget):
         self.horizontalLayout.addStretch(1)
         self.connect(self.comboDevice, QtCore.SIGNAL('currentIndexChanged(int)'), self.deviceChanged)
         self.connect(self.btnStartStop, QtCore.SIGNAL('clicked()'), self.startStop)
+        self.btnStartStop.setText("Start")
         self.refreshDevices()
         self.started = False
 
         self.comboMode.addItem('640x480')
         self.comboMode.addItem('1280x960')
         self.comboMode.addItem('320x240')
-
-    def refreshDevices(self):
-        self.videoClient.refreshStatus()
-        self.comboDevice.clear()
-        self.devices = []
-
-        for (name, device) in self.videoClient.getDevices().iteritems():
-            self.devices.append(device)
-            self.comboDevice.addItem(name)
-
-    def deviceChanged(self, index):
-        self.deviceName = str(self.comboDevice.itemText(index))
-        self.device = self.devices[index]
-
-    def startStop(self):
-        if self.started:
-            self.stop()
-        else:
-            self.start()
-
-    def start(self):
-        if self.started:
-            return
-
-        name = self.deviceName
-        mode = re.split(r'x', str(self.comboMode.currentText()))
-        width = mode[0]
-        height = mode[1]
-        fps = self.spinFps.value()
-        bitrate = self.bitrate.value()
-        host = self.videoClient.host
-        self.port = self.videoClient.startCapture(name, width, height, bitrate, fps, host)
-        self.started = True
-        self.comboMode.setDisabled(self.started)
-        self.comboDevice.setDisabled(self.started)
-        self.spinFps.setDisabled(self.started)
-        self.btnStartStop.setText("Stop")
-        self.startPrev()
-        self.tick = time.time()
-
-    def stop(self):
-        if not self.started:
-            return
-
-        name = self.deviceName
-        self.videoClient.stopCapture(name)
-        self.started = False
-        self.comboMode.setDisabled(self.started)
-        self.comboDevice.setDisabled(self.started)
-        self.spinFps.setDisabled(self.started)
-        self.btnStartStop.setText("Start")
-
-    def closeEvent(self, event):
-        self.stop()
-        QtGui.QWidget.closeEvent(self, event)
 
     def setupGst(self):
         self.CamViewWidgetPipe = Gst.Pipeline()
@@ -173,3 +121,65 @@ class CamViewWidget(QtGui.QWidget):
     def startPrev(self):
         self.setupGst()
         self.CamViewWidgetPipe.set_state(Gst.State.PLAYING)
+
+    def refreshDevices(self):
+        self.videoClient.refreshStatus()
+        self.comboDevice.clear()
+        self.devices = []
+
+        for (name, device) in self.videoClient.getDevices().iteritems():
+            self.devices.append(device)
+            self.comboDevice.addItem(name)
+
+    def deviceChanged(self, index):
+        self.deviceName = str(self.comboDevice.itemText(index))
+        self.device = self.devices[index]
+
+    def startStop(self):
+        if self.started:
+            self.stop()
+        else:
+            self.start()
+
+    def start(self):
+        if self.started:
+            return
+
+        name = self.deviceName
+        mode = re.split(r'x', str(self.comboMode.currentText()))
+        width = mode[0]
+        height = mode[1]
+        fps = self.spinFps.value()
+        bitrate = self.bitrate.value()
+        host = self.myhost
+        self.videoClient.refreshStatus()
+
+        if self.videoClient.status['captures']:
+            self.port = self.videoClient.status['captures'][0]['port']
+        else:
+            self.port = self.videoClient.startCapture(name, width, height, bitrate, fps, host)
+
+        self.started = True
+        self.comboMode.setDisabled(self.started)
+        self.comboDevice.setDisabled(self.started)
+        self.spinFps.setDisabled(self.started)
+        self.btnStartStop.setText("Stop")
+        self.startPrev()
+        self.tick = time.time()
+
+    def stop(self):
+        if not self.started:
+            return
+        name = self.deviceName
+        self.videoClient.stopCapture(name)
+        self.started = False
+        self.comboMode.setDisabled(self.started)
+        self.comboDevice.setDisabled(self.started)
+        self.spinFps.setDisabled(self.started)
+
+        self.CamViewWidgetPipe.set_state(Gst.State.PAUSED)
+        self.btnStartStop.setText("Start")
+
+    def closeEvent(self, event):
+        self.stop()
+        QtGui.QWidget.closeEvent(self, event)

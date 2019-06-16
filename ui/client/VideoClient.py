@@ -37,7 +37,7 @@ class VideoClient(CommonClient):
 
     def stopCapture(self, name):
         if name not in self.captures:
-            return
+            return RuntimeError("Invalid name: {0}".format(name))
 
         self.logger.debug("Stopping capture at {0}".format(name))
         self.captures.pop(name)

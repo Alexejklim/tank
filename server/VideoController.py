@@ -40,9 +40,10 @@ class VideoController:
         port = self.ports.pop(0)
         self.logger.info("Waiting for raspivid to open port")
         time.sleep(1)
-        args = [width, height
-               ,bitrate, fps,
-                host, port]
+        args = [width, height,
+                bitrate, fps,
+                host, port
+                ]
 
         self.logger.info("Starting raspivid with args: {0}".format(args))
 
@@ -71,6 +72,7 @@ class VideoController:
             return
 
         (raspivid, device, width, height, bitrate, fps, host, port) = self.captures.pop(name)
+
         self.logger.info("Stopping capture at {0}".format(name))
         self.camera.stop_recording()
         self.camera.close()
@@ -91,7 +93,7 @@ class VideoController:
         result = []
 
         for (name, params) in self.captures.iteritems():
-            (raspivid, device, width, height, bitrate, fps, port, host) = params
+            (raspivid, device, width, height, bitrate, fps, host, port) = params
             result.append({'name': name, 'device': device, 'width': width, 'height': height,
                            'bitrate': bitrate, 'fps': fps, 'port': port, 'host': host})
         return {'devices': self.devices, 'captures': result}
