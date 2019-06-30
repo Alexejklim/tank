@@ -8,17 +8,19 @@ from Switch import *
 
 
 class ControlClient:
-    def __init__(self, joystickManager, servoClient, switchClient, config):
+    def __init__(self, joystickManager, servoClient, switchClient,arduinoClient, config):
         self.logger = logging.getLogger("ControlClient")
         self.joystickManager = joystickManager
         self.servoClient = servoClient
         self.switchClient = switchClient
+        self.arduinoClient = arduinoClient
         self.started = False
 
         self.interval = float(config['interval'])
         self.configFolder = config['configFolder']
 
-        self.thread = None
+        self.Servothread = None
+        self.Batterythread = None
 
         self.mixers = {}
         self.switches = {}
@@ -34,14 +36,17 @@ class ControlClient:
             switch.EvStateChanged += self.onSwitchStateChanged
 
     def start(self):
-        if self.thread is not None:
+        if self.Servothread is not None:
             raise RuntimeError("Already started")
 
         self.logger.debug("Starting")
-        self.thread = threading.Thread(target=self.threadProc)
-        self.thread.daemon = True
+        self.Servothread = threading.Thread(target=self.threadProc)
+        self.Batterythread = threading.Thread(target=self.threadBattery)
+        self.Servothread.daemon = True
+        self.Batterythread.daemon = True
         self.started = True
-        self.thread.start()
+        self.Servothread.start()
+        self.Batterythread.start()
         self.logger.debug("Started")
 
     def stop(self):
@@ -50,8 +55,10 @@ class ControlClient:
 
         self.logger.debug("Stopping")
         self.started = False
-        self.thread.join()
-        self.thread = None
+        self.Servothread.join()
+        self.Batterythread.join()
+        self.Servothread = None
+        self.Batterythread = None
         self.logger.debug("Stopped")
 
     def getAvailableJoystics(self):
@@ -208,3 +215,11 @@ class ControlClient:
             value = 1
 
         self.switchClient.setSwitchValue(switch.getName(), value)
+
+    def getBatteryState(self):
+        return self.arduinoClient.refreshStatus()
+
+    def threadBattery(self):
+        while self.started:
+            self.getBatteryState()
+            time.sleep(0.5)

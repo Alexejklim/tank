@@ -33,10 +33,9 @@ class SerialClientConnector(ClientConnector):
 
         with self.lock:
             self.logger.debug("Sending {0} to {1}".format(requestString, self.port))
-            self.serialPort.write(requestString + "\r\n")
+            self.serialPort.write(requestString+'\n')
             self.logger.debug("Receiving answer from {0}".format(self.port))
             data = self.serialPort.read(20480)
-
         self.logger.debug("Response body is {0}".format(data))
         result = json.loads(data)
         self.logger.debug("Parsed result is {0}".format(result))

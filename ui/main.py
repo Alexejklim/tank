@@ -3,7 +3,6 @@
 
 import socket
 import pygame
-import logging
 import logging.config
 import os
 import signal
@@ -67,7 +66,8 @@ try:
     from CamViewWidget import*
     from ControlWidget import*
     from SoundWidget import*
-    from client import VideoClient, ControlClient, SwitchClient, SoundClient , ServoClient
+    from client import VideoClient, ControlClient, SwitchClient, SoundClient, ServoClient, ArduinoClient
+    from client import ArduinoClient as Arduino
     from client import JoystickManager
 
     #get my LAN IP
@@ -91,13 +91,15 @@ try:
     switchClient.start()
     soundClient = SoundClient((serverhost, port))
     soundClient.start()
+    arduinoClient = Arduino.ArduinoClient((serverhost, port))
+    arduinoClient.start()
 
     joyUpdateInterval = float(config['Joystick']['interval'])
     joystickManager = JoystickManager(joyUpdateInterval)
     joystickManager.start()
 
     controlCfg = config['Control']
-    controlClient = ControlClient(joystickManager, servoClient,  switchClient, controlCfg)
+    controlClient = ControlClient(joystickManager, servoClient,  switchClient, arduinoClient, controlCfg)
     controlClient.start()
 
     videoWnd = CamViewWidget(videoClient, myhost)

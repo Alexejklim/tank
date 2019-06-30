@@ -54,6 +54,9 @@ class TankServer:
         self.udpHandler.setHandler('gpio', self.gpioCommandHandler.handleCommand)
 
         self.arduinoController = ArduinoController(config['ArduinoController'])
+        self.arduinoCommandHandler = arduinoCommandHandler(self.arduinoController)
+        self.httpHandler.setHandler('arduino', self.arduinoCommandHandler.handleCommand)
+
         self.switchController = SwitchController(config['SwitchController'])
         self.switchCommandHandler = SwitchCommandHandler(self.switchController)
         self.httpHandler.setHandler('switch', self.switchCommandHandler.handleCommand)
@@ -84,11 +87,6 @@ class TankServer:
 
         self.switchController.addAll(self.gpioController.getPinNames(), self.gpioController.setPinValue,
                                      self.gpioController.getPinValue, 'gpio')
-
-        self.switchController.addSwitch('gunPower', self.arduinoController.setGunPower,
-                                        self.arduinoController.getGunPower, 'arduino')
-        self.switchController.addSwitch('gunFire', self.arduinoController.setGunFire, self.arduinoController.getGunFire,
-                                        'arduino')
         self.switchController.start()
 
         self.videoController.start()
@@ -122,7 +120,6 @@ class TankServer:
                   'SoundController': self.soundController.getStatus(),
                   'ArduinoController': self.arduinoController.getStatus(),
                   'SwitchController': self.switchController.getStatus()}
-
         return status
 
     def statusHandler(self, cmd, args):

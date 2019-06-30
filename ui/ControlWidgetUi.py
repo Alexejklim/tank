@@ -25,7 +25,7 @@ except AttributeError:
 
 class Ui_ControlWidget(object):
     def setupUi(self, ControlWidget):
-        ControlWidget.setObjectName(_fromUtf8("ControlWidget"))
+        ControlWidget.setObjectName(_fromUtf8("BatteryState"))
         ControlWidget.resize(433, 307)
         self.verticalLayout = QtGui.QVBoxLayout(ControlWidget)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))

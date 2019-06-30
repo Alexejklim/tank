@@ -5,7 +5,7 @@ from AxisMixerGroupBox import *
 from ControlWidgetUi import *
 from InputAxisGroupBox import *
 from SwitchGroupBox import *
-
+from BatteryBox import *
 
 class ControlWidget(QtGui.QWidget):
     def __init__(self, controlClient, parent=None):
@@ -64,6 +64,9 @@ class ControlWidget(QtGui.QWidget):
         for switch in self.controlClient.getSwitches().itervalues():
             switchWidget = SwitchGroupBox(switch, self)
             self.ui.vlMixers.addWidget(switchWidget)
+
+        BatteryWidget = BatteryBox(self.controlClient.arduinoClient,self)
+        self.ui.vlMixers.addWidget(BatteryWidget)
 
         self.ui.vlMixers.addStretch()
 
