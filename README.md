@@ -8,8 +8,8 @@ Also the server part of project include ArduinoUno for charge monitoring.
 The client and server must be connect to the same local network.
 Both parts have separate config files. For video streaming used Gstreamer.
 There is auto-detected joystick for control of the robot. The configuration of joystick can be parameterized for yourself.
-Inspiration, ideas and part of the source are largely gleaned ![here](https://habr.com/en/post/244407/).
-https://habr.com/en/post/244407/
+Inspiration, ideas and part of the source are largely gleaned [here](https://habr.com/en/post/244407/).
+
 
 ## Tips for installing:
 1. Python version: *2.7.14*.
