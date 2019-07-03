@@ -28,4 +28,4 @@ class ArduinoClient(CommonClient):
     def setBattery(self,result):
         self.battery['voltage'] = result.get('battery').get('Voltage')
         self.battery['current'] = result.get('battery').get('Current')
-        self.battery['charge'] = int((self.battery['current']-4)*10)
+        self.battery['charge'] = int((self.battery['voltage']-4)*10)

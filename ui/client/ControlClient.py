@@ -222,4 +222,5 @@ class ControlClient:
     def threadBattery(self):
         while self.started:
             self.getBatteryState()
+            self.arduinoClient.EvBatteryMove()
             time.sleep(0.5)

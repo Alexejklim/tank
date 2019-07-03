@@ -31,7 +31,15 @@ class ArduinoController:
         self.logger.info("Stopped")
 
     def getBateryStatus(self):
-        return self.connector.requestAndCheck('battery', {'act': 'status'})
+        while True:
+            try:
+                response = self.connector.requestAndCheck('battery', {'act': 'status'})
+            except ValueError:
+                time.sleep(1)
+                continue
+            else:
+                break
+        return response
 
     def getStatus(self):
         return {'battery': self.getBateryStatus()}
