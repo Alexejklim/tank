@@ -31,6 +31,7 @@ Inspiration, ideas and part of the source are largely gleaned [here](https://hab
 8. Transition to Python3.
 9. Crossplatform client.
 10. Obstacle analysis.
+11. Colibrate battery.
 
 ## Gallery
 ![leftside](../master/images/tank_leftside.jpg)
