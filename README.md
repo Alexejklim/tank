@@ -20,18 +20,6 @@ Inspiration, ideas and part of the source are largely gleaned [here](https://hab
 ## Useful things:
 1. Add server to autostart in RPi: nano /etc/rc.local
 
-## TODOs:
-1. Deployment automation.
-2. Add reboot RPi and softreboot server from the client.
-3. Debug audio section. Truble with control and stream quality.
-4. Don`t work "socket.gethostbyname('raspberrypi')" in main.py.
-5. Set video control panel below video stream.
-6. Debug servo control. Sometimes servo control lags. Mb switch sepatate client servo thread to joystick thread. Also can change http timeout.
-7. Dialog Control has duplicate Axis (3,4).
-8. Transition to Python3.
-9. Crossplatform client.
-10. Obstacle analysis.
-11. Colibrate battery.
 
 ## Gallery
 ![leftside](../master/images/tank_leftside.jpg)
