@@ -19,6 +19,17 @@ Inspiration, ideas and part of the source are largely gleaned [here](https://hab
 
 ## Useful things:
 1. Add server to autostart in RPi: nano /etc/rc.local
+2. Configure RPi without Display with SSH:
+   - Enable ssh: crate empty "ssh" file in Folder boot in Image
+   - Create file wpa_supplicant.conf in Folder boot and save next text:
+     country=BY
+     ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+     update_config=1
+
+     network={
+        ssid="NETWORK-NAME"
+        psk="NETWORK-PASSWORD"
+     }
 
 
 ## Gallery
