@@ -6,4 +6,4 @@ PyQt4==4.11.4
 PySide==1.2.4
 pyserial==3.4
 picamera==1.13
-httplib2==0.18.0
+httplib2==0.19.0
